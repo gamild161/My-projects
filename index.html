@@ -25,21 +25,18 @@
       }
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
-
-    <script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
-    "recharts": "https://esm.sh/recharts@2.13.0?external=react",
+    "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "recharts": "https://esm.sh/recharts@^3.6.0"
   }
 }
 </script>
-  <link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
@@ -56,18 +53,16 @@
         document.getElementById('loading-screen').style.display = 'none';
       };
       
-      // صائد الأخطاء لإظهار سبب التوقف على الشاشة
+      // صائد الأخطاء للتنبيه في حال وجود مشكلة في ملفات معينة
       window.onerror = function(msg, url, lineNo, columnNo, error) {
         const log = document.getElementById('error-log');
-        if(log) log.innerHTML = "خطأ في التحميل: " + msg;
+        if(log) log.innerHTML = "خطأ فني: " + msg + "<br>يرجى تحديث الصفحة (Ctrl+F5)";
         return false;
       };
     </script>
 
-    <script type="module">
-      import { run } from 'https://esm.sh/run';
-      run('./index.tsx');
-    </script>
+    <!-- الطريقة الصحيحة لتشغيل مشروع React/TSX بدون بناء (Build) على GitHub -->
+    <script type="module" src="https://esm.sh/run"></script>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>
