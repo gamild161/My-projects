@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3252/3252838.png" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -27,11 +27,6 @@
         border-radius: 50%; animation: spin 1s linear infinite;
       }
       @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      .protocol-alert {
-        display: none; background: #fffbeb; border: 1px solid #f59e0b; padding: 20px;
-        border-radius: 12px; max-width: 400px; text-align: center; margin: 20px;
-        color: #92400e; font-size: 14px;
-      }
     </style>
 
     <script type="importmap">
@@ -52,41 +47,36 @@
   <body>
     <div id="root"></div>
 
-    <!-- شاشة التحميل -->
+    <!-- شاشة التحميل الذكية -->
     <div id="loading-screen" class="initial-loader">
       <div class="loader-spin"></div>
       <p style="color: #059669; font-weight: 900; font-size: 20px;">مكتب إنجاز زين</p>
-      <p id="loading-status" style="color: #6b7280;">جاري تشغيل النظام...</p>
-      
-      <!-- تنبيه بروتوكول الملفات -->
-      <div id="file-protocol-msg" class="protocol-alert">
-        <p><strong>تنبيه هام:</strong> يبدو أنك تفتح الملف مباشرة من المجلد.</p>
-        <p style="margin-top: 8px;">لتشغيل التطبيق على جهازك، يجب استخدامه داخل بيئة عمل (مثل VS Code) أو رفعه على استضافة، لأن المتصفحات تمنع تشغيل الأكواد المتقدمة من القرص الصلب مباشرة.</p>
-      </div>
+      <p id="loading-status" style="color: #6b7280;">جاري تشغيل النظام المحاسبي...</p>
     </div>
 
     <script>
-      // التحقق من طريقة فتح الملف
-      if (window.location.protocol === 'file:') {
-        document.getElementById('file-protocol-msg').style.display = 'block';
-        document.getElementById('loading-status').style.display = 'none';
-      }
-
-      // وظيفة لإخفاء شاشة التحميل يستدعيها ملف index.tsx
+      // وظيفة لإخفاء شاشة التحميل
       window.hideEnjazLoader = function() {
         const loader = document.getElementById('loading-screen');
         if (loader) loader.style.display = 'none';
       };
 
-      // حل احتياطي: إذا لم يعمل React بعد 10 ثوانٍ، نظهر تنبيه في الكونسول
+      // في حال حدوث خطأ في التحميل بعد 15 ثانية
       setTimeout(() => {
+        const loaderStatus = document.getElementById('loading-status');
         if (document.getElementById('loading-screen').style.display !== 'none') {
-           console.warn("تنبيه: التطبيق يستغرق وقتاً طويلاً للتحميل. تأكد من اتصال الإنترنت أو استخدم Local Server.");
+           loaderStatus.innerHTML = "يبدو أن التحميل يستغرق وقتاً.. يرجى التأكد من اتصال الإنترنت.";
+           loaderStatus.style.color = "#ef4444";
         }
-      }, 10000);
+      }, 15000);
     </script>
 
-    <script type="module" src="index.tsx"></script>
+    <!-- هذا المحرك هو السر في تشغيل ملفات TSX على GitHub Pages بدون بناء -->
+    <script type="module">
+      import { run } from 'https://esm.sh/run';
+      // نقوم بتشغيل ملف index.tsx كملف رئيسي
+      run('./index.tsx');
+    </script>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>
