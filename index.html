@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مكتب إنجاز زين للمحاسبة</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#059669" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3252/3252838.png" />
+    <link rel="manifest" href="manifest.json" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+      body { font-family: 'Cairo', sans-serif; margin: 0; background-color: #f9fafb; overflow-x: hidden; }
+      .initial-loader {
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        height: 100vh; gap: 20px; background: #ffffff; position: fixed; inset: 0; z-index: 9999;
+      }
+      .loader-spin {
+        width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #059669;
+        border-radius: 50%; animation: spin 1s linear infinite;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      .protocol-alert {
+        display: none; background: #fffbeb; border: 1px solid #f59e0b; padding: 20px;
+        border-radius: 12px; max-width: 400px; text-align: center; margin: 20px;
+        color: #92400e; font-size: 14px;
+      }
+    </style>
+
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "recharts": "https://esm.sh/recharts@2.13.0?external=react",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+
+    <!-- شاشة التحميل -->
+    <div id="loading-screen" class="initial-loader">
+      <div class="loader-spin"></div>
+      <p style="color: #059669; font-weight: 900; font-size: 20px;">مكتب إنجاز زين</p>
+      <p id="loading-status" style="color: #6b7280;">جاري تشغيل النظام...</p>
+      
+      <!-- تنبيه بروتوكول الملفات -->
+      <div id="file-protocol-msg" class="protocol-alert">
+        <p><strong>تنبيه هام:</strong> يبدو أنك تفتح الملف مباشرة من المجلد.</p>
+        <p style="margin-top: 8px;">لتشغيل التطبيق على جهازك، يجب استخدامه داخل بيئة عمل (مثل VS Code) أو رفعه على استضافة، لأن المتصفحات تمنع تشغيل الأكواد المتقدمة من القرص الصلب مباشرة.</p>
+      </div>
+    </div>
+
+    <script>
+      // التحقق من طريقة فتح الملف
+      if (window.location.protocol === 'file:') {
+        document.getElementById('file-protocol-msg').style.display = 'block';
+        document.getElementById('loading-status').style.display = 'none';
+      }
+
+      // وظيفة لإخفاء شاشة التحميل يستدعيها ملف index.tsx
+      window.hideEnjazLoader = function() {
+        const loader = document.getElementById('loading-screen');
+        if (loader) loader.style.display = 'none';
+      };
+
+      // حل احتياطي: إذا لم يعمل React بعد 10 ثوانٍ، نظهر تنبيه في الكونسول
+      setTimeout(() => {
+        if (document.getElementById('loading-screen').style.display !== 'none') {
+           console.warn("تنبيه: التطبيق يستغرق وقتاً طويلاً للتحميل. تأكد من اتصال الإنترنت أو استخدم Local Server.");
+        }
+      }, 10000);
+    </script>
+
+    <script type="module" src="index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
