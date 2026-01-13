@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Deduction, Partner } from '../types';
+import { Deduction, Partner } from '../types.ts';
 import { Plus, Trash2, Edit2, Save, X, Calendar } from 'lucide-react';
 
 interface DeductionsViewProps {

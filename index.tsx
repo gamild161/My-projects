@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import App from './App.tsx';
 
 const startApp = () => {
   const container = document.getElementById('root');
@@ -13,14 +13,13 @@ const startApp = () => {
       </React.StrictMode>
     );
     
-    // إخفاء شاشة التحميل فور نجاح التشغيل
+    // إخفاء شاشة التحميل
     setTimeout(() => {
       if ((window as any).hideEnjazLoader) {
         (window as any).hideEnjazLoader();
       }
-    }, 500);
+    }, 1000);
   }
 };
 
-// تشغيل التطبيق
 startApp();

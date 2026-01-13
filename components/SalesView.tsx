@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Sale } from '../types';
+import { Sale } from '../types.ts';
 import { Plus, Trash2, Edit2, X, Save, Calendar } from 'lucide-react';
 
 interface SalesViewProps {

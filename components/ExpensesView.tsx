@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Expense } from '../types';
+import { Expense } from '../types.ts';
 import { Plus, Trash2, Edit2, Save, X, Calendar } from 'lucide-react';
 
 interface ExpensesViewProps {

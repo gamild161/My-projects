@@ -1,18 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import SalesView from './components/SalesView';
-import ExpensesView from './components/ExpensesView';
-import DeductionsView from './components/DeductionsView';
-import DailyLogsView from './components/DailyLogsView';
-import MonthlyReportsView from './components/MonthlyReportsView';
-import MonthlyExpensesDetailView from './components/MonthlyExpensesDetailView';
-import PartnerAccountStatementView from './components/PartnerAccountStatementView';
-import PartnerDebtsView from './components/PartnerDebtsView';
-import SettingsView from './components/SettingsView';
-import { Sale, Expense, Deduction, DailyLog, MonthlyReport, PartnerDebt, Partner } from './types';
-import { STORAGE_KEYS, getFromStorage, saveToStorage } from './utils/storage';
+import Layout from './components/Layout.tsx';
+import Dashboard from './components/Dashboard.tsx';
+import SalesView from './components/SalesView.tsx';
+import ExpensesView from './components/ExpensesView.tsx';
+import DeductionsView from './components/DeductionsView.tsx';
+import DailyLogsView from './components/DailyLogsView.tsx';
+import MonthlyReportsView from './components/MonthlyReportsView.tsx';
+import MonthlyExpensesDetailView from './components/MonthlyExpensesDetailView.tsx';
+import PartnerAccountStatementView from './components/PartnerAccountStatementView.tsx';
+import PartnerDebtsView from './components/PartnerDebtsView.tsx';
+import SettingsView from './components/SettingsView.tsx';
+import { Sale, Expense, Deduction, DailyLog, MonthlyReport, PartnerDebt, Partner } from './types.ts';
+import { STORAGE_KEYS, getFromStorage, saveToStorage } from './utils/storage.ts';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');

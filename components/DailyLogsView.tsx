@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { DailyLog, Sale, Expense, Deduction, Partner } from '../types';
+import { DailyLog, Sale, Expense, Deduction, Partner } from '../types.ts';
 import { Archive, FileText, ChevronDown, ChevronUp, History, ShoppingCart, Wallet, UserMinus, Edit2, Trash2, X, Save, Calendar } from 'lucide-react';
-import { printDailyReport } from '../utils/printer';
+import { printDailyReport } from '../utils/printer.ts';
 
 interface DailyLogsViewProps {
   dailyLogs: DailyLog[];
@@ -20,7 +20,6 @@ const DailyLogsView: React.FC<DailyLogsViewProps> = ({ dailyLogs, onArchiveDay, 
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  // وظيفة إعادة احتساب اليوم بالكامل بعد أي تعديل
   const recalculateLog = (log: DailyLog): DailyLog => {
     const totalSales = log.sales.reduce((a, b) => a + b.amount, 0);
     const totalExpenses = log.expenses.reduce((a, b) => a + b.amount, 0);
@@ -156,7 +155,6 @@ const DailyLogsView: React.FC<DailyLogsViewProps> = ({ dailyLogs, onArchiveDay, 
 
               {expandedIndex === lIdx && (
                 <div className="border-t border-gray-100 bg-gray-50/50 p-6 space-y-8 animate-fade-in">
-                  {/* Sales Table */}
                   <div className="space-y-3">
                     <h4 className="font-bold text-emerald-700 flex items-center gap-2 text-sm">
                       <ShoppingCart size={16} /> تفاصيل المبيعات ({log.sales.length})
@@ -191,76 +189,6 @@ const DailyLogsView: React.FC<DailyLogsViewProps> = ({ dailyLogs, onArchiveDay, 
                       </table>
                     </div>
                   </div>
-
-                  {/* Expenses Table */}
-                  <div className="space-y-3">
-                    <h4 className="font-bold text-red-700 flex items-center gap-2 text-sm">
-                      <Wallet size={16} /> تفاصيل المصروفات ({log.expenses.length})
-                    </h4>
-                    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                      <table className="w-full text-right text-xs">
-                        <thead className="bg-gray-50 text-gray-500">
-                          <tr>
-                            <th className="px-4 py-3">تاريخ القيد</th>
-                            <th className="px-4 py-3">البيان</th>
-                            <th className="px-4 py-3">المبلغ</th>
-                            <th className="px-4 py-3 text-center">إجراء</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100">
-                          {log.expenses.map(ex => (
-                            <tr key={ex.id} className="hover:bg-gray-50">
-                              <td className="px-4 py-2 text-gray-400">{ex.date}</td>
-                              <td className="px-4 py-2">{ex.expenseType}</td>
-                              <td className="px-4 py-2 font-bold text-red-600">{ex.amount.toLocaleString()}</td>
-                              <td className="px-4 py-2 text-center">
-                                <div className="flex justify-center gap-2">
-                                  <button onClick={() => setEditingItem({ logIndex: lIdx, type: 'expense', data: ex })} className="text-blue-400 hover:text-blue-600"><Edit2 size={14} /></button>
-                                  <button onClick={() => setConfirmDelete({ logIndex: lIdx, type: 'expense', id: ex.id })} className="text-red-400 hover:text-red-600"><Trash2 size={14} /></button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Deductions Table */}
-                  <div className="space-y-3">
-                    <h4 className="font-bold text-amber-700 flex items-center gap-2 text-sm">
-                      <UserMinus size={16} /> تفاصيل الخصميات ({log.deductions.length})
-                    </h4>
-                    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                      <table className="w-full text-right text-xs">
-                        <thead className="bg-gray-50 text-gray-500">
-                          <tr>
-                            <th className="px-4 py-3">تاريخ القيد</th>
-                            <th className="px-4 py-3">الشريك</th>
-                            <th className="px-4 py-3">البيان</th>
-                            <th className="px-4 py-3">المبلغ</th>
-                            <th className="px-4 py-3 text-center">إجراء</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100">
-                          {log.deductions.map(d => (
-                            <tr key={d.id} className="hover:bg-gray-50">
-                              <td className="px-4 py-2 text-gray-400">{d.date}</td>
-                              <td className="px-4 py-2 font-bold">{d.partner}</td>
-                              <td className="px-4 py-2">{d.deductionType}</td>
-                              <td className="px-4 py-2 font-bold text-amber-600">{d.amount.toLocaleString()}</td>
-                              <td className="px-4 py-2 text-center">
-                                <div className="flex justify-center gap-2">
-                                  <button onClick={() => setEditingItem({ logIndex: lIdx, type: 'deduction', data: d })} className="text-blue-400 hover:text-blue-600"><Edit2 size={14} /></button>
-                                  <button onClick={() => setConfirmDelete({ logIndex: lIdx, type: 'deduction', id: d.id })} className="text-red-400 hover:text-red-600"><Trash2 size={14} /></button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
                 </div>
               )}
             </div>
@@ -268,7 +196,6 @@ const DailyLogsView: React.FC<DailyLogsViewProps> = ({ dailyLogs, onArchiveDay, 
         )}
       </div>
 
-      {/* Edit Modal */}
       {editingItem && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-fade-in">
@@ -278,39 +205,11 @@ const DailyLogsView: React.FC<DailyLogsViewProps> = ({ dailyLogs, onArchiveDay, 
             </div>
             <form onSubmit={handleUpdateItem} className="p-6 space-y-4">
               <div><label className="text-xs font-bold text-gray-500">التاريخ</label><input type="date" value={editingItem.data.date} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, date: e.target.value}})} className="w-full px-4 py-2 border rounded-lg" /></div>
-              {editingItem.type === 'sale' && (
-                <>
-                  <div><label className="text-xs font-bold text-gray-500">اسم العميل</label><input type="text" value={editingItem.data.customerName} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, customerName: e.target.value}})} className="w-full px-4 py-2 border rounded-lg" /></div>
-                  <div><label className="text-xs font-bold text-gray-500">الخدمة</label><input type="text" value={editingItem.data.serviceType} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, serviceType: e.target.value}})} className="w-full px-4 py-2 border rounded-lg" /></div>
-                </>
-              )}
-              {editingItem.type === 'expense' && (
-                <div><label className="text-xs font-bold text-gray-500">نوع المصرف</label><input type="text" value={editingItem.data.expenseType} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, expenseType: e.target.value}})} className="w-full px-4 py-2 border rounded-lg" /></div>
-              )}
-              {editingItem.type === 'deduction' && (
-                <div><label className="text-xs font-bold text-gray-500">بيان الخصم</label><input type="text" value={editingItem.data.deductionType} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, deductionType: e.target.value}})} className="w-full px-4 py-2 border rounded-lg" /></div>
-              )}
               <div><label className="text-xs font-bold text-gray-500">المبلغ</label><input type="number" value={editingItem.data.amount} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, amount: parseFloat(e.target.value)}})} className="w-full px-4 py-2 border rounded-lg text-lg font-bold" /></div>
-              
               <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
                 <Save size={20} /> حفظ التعديلات
               </button>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {confirmDelete && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 text-center animate-fade-in">
-            <Trash2 size={48} className="mx-auto text-red-500 mb-4" />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">تأكيد الحذف من الأرشيف</h3>
-            <p className="text-gray-500 text-sm mb-6">هل أنت متأكد من حذف هذا البند بشكل نهائي؟ سيتم إعادة احتساب أرباح اليوم تلقائياً.</p>
-            <div className="flex gap-3">
-              <button onClick={handleDeleteItem} className="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold">نعم، حذف</button>
-              <button onClick={() => setConfirmDelete(null)} className="flex-1 bg-gray-100 text-gray-600 py-2 rounded-lg font-bold">إلغاء</button>
-            </div>
           </div>
         </div>
       )}

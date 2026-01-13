@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, 
   PieChart, Pie, Cell 
 } from 'recharts';
-import { Sale, Expense, Deduction } from '../types';
+import { Sale, Expense, Deduction } from '../types.ts';
 
 interface DashboardProps {
   sales: Sale[];
