@@ -45,23 +45,28 @@
       <div class="loader-spin"></div>
       <p style="color: #059669; font-weight: 900; font-size: 20px;">مكتب إنجاز زين</p>
       <p id="loading-status" style="color: #6b7280;">جاري تشغيل النظام المحاسبي...</p>
-      <div id="error-log" style="color: #ef4444; font-size: 12px; max-width: 80%; text-align: center; margin-top: 10px;"></div>
+      <div id="error-log" style="color: #ef4444; font-size: 14px; max-width: 80%; text-align: center; margin-top: 10px; font-weight: bold;"></div>
     </div>
 
     <script>
+      // وظيفة لإخفاء شاشة التحميل يستدعيها التطبيق عند الجاهزية
       window.hideEnjazLoader = function() {
-        document.getElementById('loading-screen').style.display = 'none';
+        const loader = document.getElementById('loading-screen');
+        if (loader) loader.style.display = 'none';
       };
       
-      // صائد الأخطاء للتنبيه في حال وجود مشكلة في ملفات معينة
+      // صائد أخطاء متطور لعرض المشكلة مباشرة على الشاشة
       window.onerror = function(msg, url, lineNo, columnNo, error) {
         const log = document.getElementById('error-log');
-        if(log) log.innerHTML = "خطأ فني: " + msg + "<br>يرجى تحديث الصفحة (Ctrl+F5)";
+        if(log) {
+          log.innerHTML = "حدث خطأ أثناء التحميل:<br>" + msg + 
+                         "<br><br><small>يرجى تجربة الضغط على Ctrl+F5 لتحديث الكاش</small>";
+        }
         return false;
       };
     </script>
 
-    <!-- الطريقة الصحيحة لتشغيل مشروع React/TSX بدون بناء (Build) على GitHub -->
+    <!-- المشغل التلقائي من esm.sh هو الحل الأضمن لـ GitHub Pages -->
     <script type="module" src="https://esm.sh/run"></script>
   <script type="module" src="/index.tsx"></script>
 </body>
